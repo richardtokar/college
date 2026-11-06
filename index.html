@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>What Will College Really Cost?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Public+Sans:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:#f6f7f4; --surface:#ffffff; --ink:#1d2b3a; --muted:#52606d; --line:#d5dbe1;
+  --free:#1f6f8b; --earned:#d99a1e; --borrowed:#b5462a; --pay:#8a96a3; --focus:#1f6f8b;
+  color-scheme: light; box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#121a22; --surface:#1b2530; --ink:#e7edf2; --muted:#a6b3bf; --line:#33414f;
+    --free:#4aa8c8; --earned:#f0b440; --borrowed:#e0714f; --pay:#6f7c89; --focus:#4aa8c8; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121a22; --surface:#1b2530; --ink:#e7edf2; --muted:#a6b3bf; --line:#33414f;
+  --free:#4aa8c8; --earned:#f0b440; --borrowed:#e0714f; --pay:#6f7c89; --focus:#4aa8c8; color-scheme: dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Public Sans",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;font-size:18px;line-height:1.5}
+.wrap{max-width:760px;margin:0 auto;padding:32px 20px 56px}
+h1,h2{font-family:"Bricolage Grotesque","Public Sans",system-ui,sans-serif;line-height:1.1;margin:0}
+h1{font-size:clamp(2.1rem,6vw,3.2rem);font-weight:800;letter-spacing:-0.02em}
+.lede{color:var(--muted);margin:10px 0 0;max-width:52ch}
+.step{margin-top:22px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px 22px}
+.step h2{font-size:1.45rem;display:flex;align-items:center;gap:12px}
+.num{width:36px;height:36px;border-radius:50%;background:var(--ink);color:var(--bg);display:inline-flex;align-items:center;justify-content:center;font-size:1.1rem;flex:none}
+.step > p{color:var(--muted);margin:6px 0 14px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 16px}
+@media (max-width:560px){.grid{grid-template-columns:1fr}}
+label{display:block;font-weight:700;margin-bottom:4px}
+label small{display:block;font-weight:400;color:var(--muted);font-size:.85rem}
+.money{display:flex;align-items:center;border:2px solid var(--line);border-radius:10px;background:var(--bg)}
+.money span{padding:0 6px 0 12px;color:var(--muted);font-weight:700}
+.money input{border:0;background:transparent;color:var(--ink);font:inherit;font-size:1.15rem;font-variant-numeric:tabular-nums;width:100%;padding:10px 12px 10px 0;min-width:0}
+.money:focus-within{border-color:var(--focus)}
+select{font:inherit;color:var(--ink);background:var(--bg);border:2px solid var(--line);border-radius:10px;padding:10px 12px;width:100%}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.tag{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-1px;margin-right:6px}
+.tag.free{background:var(--free)} .tag.earned{background:var(--earned)} .tag.borrowed{background:var(--borrowed)}
+.tag.pay{background:repeating-linear-gradient(45deg,var(--pay) 0 3px,transparent 3px 6px);outline:1px solid var(--pay)}
+
+.answer{margin-top:22px;background:var(--surface);border:2px solid var(--ink);border-radius:16px;padding:22px}
+.answer h2{font-size:1.45rem}
+.big{font-family:"Bricolage Grotesque",sans-serif;font-size:clamp(2.8rem,9vw,4rem);font-weight:800;font-variant-numeric:tabular-nums;line-height:1;margin:8px 0 2px}
+.sub{color:var(--muted);margin:0 0 16px}
+.bar{display:flex;height:38px;border-radius:8px;overflow:hidden;border:1px solid var(--line);background:var(--bg)}
+.bar div{height:100%;transition:flex-basis .35s ease}
+@media (prefers-reduced-motion:reduce){.bar div{transition:none}}
+.bar .free{background:var(--free)} .bar .earned{background:var(--earned)} .bar .borrowed{background:var(--borrowed)}
+.bar .pay{background:repeating-linear-gradient(45deg,var(--pay) 0 3px,transparent 3px 6px)}
+.lines{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column;gap:6px}
+.lines li{display:flex;justify-content:space-between;gap:12px;font-variant-numeric:tabular-nums}
+.lines li b{white-space:nowrap}
+.lines li.last{border-top:1px solid var(--line);padding-top:8px;font-weight:700}
+.callouts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px}
+@media (max-width:560px){.callouts{grid-template-columns:1fr}}
+.callout{background:var(--bg);border-radius:12px;padding:14px 16px}
+.callout .k{font-weight:700}
+.callout .v{font-family:"Bricolage Grotesque",sans-serif;font-size:1.9rem;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.1;margin-top:2px}
+.callout p{margin:4px 0 0;color:var(--muted);font-size:.92rem}
+.foot{margin-top:22px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:14px}
+.foot p{margin:0;color:var(--muted);font-size:.85rem;max-width:60ch}
+button{font:inherit;font-weight:700;border-radius:10px;border:2px solid var(--ink);background:var(--surface);color:var(--ink);padding:10px 18px;cursor:pointer;min-height:44px}
+button:hover{background:var(--bg)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>What will college really cost?</h1>
+  <p class="lede">Fill in three steps using one college’s cost and aid offer. Use yearly amounts.</p>
+
+  <form id="form" autocomplete="off" onsubmit="return false">
+    <section class="step" aria-labelledby="s1">
+      <h2 id="s1"><span class="num" aria-hidden="true">1</span>What does one year cost?</h2>
+      <p>Living at home? Put $0 for room.</p>
+      <div class="grid">
+        <div><label for="tuition">Tuition</label><div class="money"><span>$</span><input id="tuition" type="number" inputmode="numeric" min="0" step="100" placeholder="0"></div></div>
+        <div><label for="room">Room <small>Dorm or housing</small></label><div class="money"><span>$</span><input id="room" type="number" inputmode="numeric" min="0" step="100" placeholder="0"></div></div>
+        <div><label for="board">Board <small>Meal plan or food</small></label><div class="money"><span>$</span><input id="board" type="number" inputmode="numeric" min="0" step="100" placeholder="0"></div></div>
+        <div><label for="years">Years of school <small>2 for community college, 4 for a bachelor’s</small></label><select id="years"><option value="2">2 years</option><option value="4" selected>4 years</option></select></div>
+      </div>
+    </section>
+
+    <section class="step" aria-labelledby="s2">
+      <h2 id="s2"><span class="num" aria-hidden="true">2</span>What’s free?</h2>
+      <p>Add up every grant and scholarship on the offer: Pell, TAP, Excelsior, college grants, scholarships.</p>
+      <div class="grid">
+        <div><label for="free"><span class="tag free" aria-hidden="true"></span>Grants and scholarships</label><div class="money"><span>$</span><input id="free" type="number" inputmode="numeric" min="0" step="100" placeholder="0"></div></div>
+      </div>
+    </section>
+
+    <section class="step" aria-labelledby="s3">
+      <h2 id="s3"><span class="num" aria-hidden="true">3</span>What’s earned or borrowed?</h2>
+      <p>Work-study is a campus job. Loans must be paid back with interest.</p>
+      <div class="grid">
+        <div><label for="ws"><span class="tag earned" aria-hidden="true"></span>Work-study</label><div class="money"><span>$</span><input id="ws" type="number" inputmode="numeric" min="0" step="100" placeholder="0"></div></div>
+        <div><label for="loans"><span class="tag borrowed" aria-hidden="true"></span>Loans <small>All loans on the offer</small></label><div class="money"><span>$</span><input id="loans" type="number" inputmode="numeric" min="0" step="100" placeholder="0"></div></div>
+      </div>
+    </section>
+  </form>
+
+  <section class="answer" aria-labelledby="ans" aria-live="polite">
+    <h2 id="ans">The real cost of one year</h2>
+    <div class="big" id="net">$0</div>
+    <p class="sub" id="netNote">Enter the cost in step 1 to start.</p>
+    <div class="bar" id="bar" role="img" aria-label="No numbers yet"><div class="free"></div><div class="earned"></div><div class="borrowed"></div><div class="pay"></div></div>
+    <ul class="lines">
+      <li><span>Cost of one year</span><b id="coa">$0</b></li>
+      <li><span><span class="tag free" aria-hidden="true"></span>Free money</span><b id="freeOut">−$0</b></li>
+      <li><span><span class="tag earned" aria-hidden="true"></span>Earned with a campus job</span><b id="wsOut">−$0</b></li>
+      <li><span><span class="tag borrowed" aria-hidden="true"></span>Borrowed</span><b id="loanOut">−$0</b></li>
+      <li class="last"><span><span class="tag pay" aria-hidden="true"></span>Still to pay from savings or a job</span><b id="pay">$0</b></li>
+    </ul>
+    <div class="callouts">
+      <div class="callout"><div class="k" id="owedK">Loans owed after 4 years</div><div class="v" id="owed">$0</div><p>Your yearly loans times your years of school.</p></div>
+      <div class="callout"><div class="k">Payment after graduation</div><div class="v" id="monthly">$0/mo</div><p id="monthlyNote">No loans entered.</p></div>
+    </div>
+  </section>
+
+  <div class="foot">
+    <p>Estimate only. Loan payments use the 2026–27 federal student loan rate of 6.52%. Parent and private loans usually cost more. Under $25,000 is repaid over 10 years, $25,000 or more over 15, $50,000 or more over 20.</p>
+    <button type="button" id="clear">Start over</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  var RATE=0.0652, KEY="college-cost-simple-v1";
+  var ids=["tuition","room","board","years","free","ws","loans"];
+  var $=function(id){return document.getElementById(id);};
+  function v(id){var n=parseFloat($(id).value);return isFinite(n)&&n>0?n:0;}
+  function money(n){return "$"+Math.round(Math.max(0,n)).toLocaleString("en-US");}
+  function term(t){if(t<=0)return 0;if(t<25000)return 10;if(t<50000)return 15;if(t<100000)return 20;return 25;}
+  function pmt(P,yrs){var r=RATE/12,n=yrs*12;return P*r/(1-Math.pow(1+r,-n));}
+  try{var s=JSON.parse(localStorage.getItem(KEY));if(s)ids.forEach(function(id){if(s[id]!==undefined)$(id).value=s[id];});}catch(e){}
+
+  function update(){
+    var years=parseInt($("years").value,10)||4;
+    var coa=v("tuition")+v("room")+v("board"), free=Math.min(v("free"),coa), ws=v("ws"), loans=v("loans");
+    var net=coa-free, pay=net-ws-loans;
+    $("net").textContent=money(net);
+    $("netNote").textContent=coa?"That’s the cost after free money. Everything else comes from a job, loans, or your family.":"Enter the cost in step 1 to start.";
+    $("coa").textContent=money(coa);
+    $("freeOut").textContent="−"+money(free);
+    $("wsOut").textContent="−"+money(ws);
+    $("loanOut").textContent="−"+money(loans);
+    $("pay").textContent=pay<0?"$0 (the offer covers it)":money(pay);
+    var parts=[free,ws,loans,Math.max(0,pay)], sum=parts.reduce(function(a,b){return a+b;},0);
+    Array.prototype.forEach.call($("bar").children,function(d,i){d.style.flex="0 0 "+(sum?parts[i]/sum*100:0)+"%";});
+    $("bar").setAttribute("aria-label",coa?"Of "+money(coa)+": free "+money(free)+", earned "+money(ws)+", borrowed "+money(loans)+", still to pay "+money(Math.max(0,pay)):"No numbers yet");
+    var owed=loans*years, yrs=term(owed);
+    $("owedK").textContent="Loans owed after "+years+" years";
+    $("owed").textContent=money(owed);
+    if(owed>0){var m=pmt(owed,yrs),interest=m*yrs*12-owed;$("monthly").textContent=money(m)+"/mo";$("monthlyNote").textContent="For "+yrs+" years. You’d pay about "+money(interest)+" in interest.";}
+    else{$("monthly").textContent="$0/mo";$("monthlyNote").textContent="No loans entered.";}
+    try{var o={};ids.forEach(function(id){o[id]=$(id).value;});localStorage.setItem(KEY,JSON.stringify(o));}catch(e){}
+  }
+  $("form").addEventListener("input",update);
+  $("form").addEventListener("change",update);
+  $("clear").addEventListener("click",function(){ids.forEach(function(id){$(id).value=id==="years"?"4":"";});update();});
+  update();
+})();
+</script>
+</body>
+</html>
